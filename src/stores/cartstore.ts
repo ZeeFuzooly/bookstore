@@ -17,13 +17,13 @@ interface CartStore {
   removeFromCart: (book: CartItem['book']) => void;
 }
 
-export const useCartStore = create<CartStore>((set) => ({
+export const useCartStore = create<CartStore>((set: (arg0: { (state: any): { items: any; }; (state: { items: any[]; }): { items: any[]; }; (state: { items: any[]; }): { items: any[]; }; }) => any) => ({
   items: [],
-  addToCart: (book) => set((state) => {
-    const existingItem = state.items.find(item => item.book.title === book.title);
+  addToCart: (book: { title: any; }) => set((state: { items: any[]; }) => {
+    const existingItem = state.items.find((item: { book: { title: any; }; }) => item.book.title === book.title);
     if (existingItem) {
       return {
-        items: state.items.map(item =>
+        items: state.items.map((item: { book: { title: any; }; quantity: number; }) =>
           item.book.title === book.title
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -32,14 +32,14 @@ export const useCartStore = create<CartStore>((set) => ({
     }
     return { items: [...state.items, { book, quantity: 1 }] };
   }),
-  updateQuantity: (book, quantity) => set((state) => ({
+  updateQuantity: (book: { title: any; }, quantity: any) => set((state: { items: any[]; }) => ({
     items: state.items.map(item =>
       item.book.title === book.title
         ? { ...item, quantity }
         : item
     )
   })),
-  removeFromCart: (book) => set((state) => ({
+  removeFromCart: (book: { title: any; }) => set((state: { items: any[]; }) => ({
     items: state.items.filter(item => item.book.title !== book.title)
   })),
 }));

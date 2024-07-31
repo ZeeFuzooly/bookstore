@@ -1,6 +1,7 @@
 import { useCartStore } from '../stores/cartstore';
 import { Table, Button, NumberInput, Text, Flex, Space, Title, Box, Center } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { Key } from 'react';
 
 interface Book {
   title: string;
@@ -11,18 +12,23 @@ interface Book {
 
 interface CartItem {
   book: Book;
-  quantity: number; 
+  quantity: number;
 }
 
 const Cart = () => {
-  const items = useCartStore((state) => state.items as CartItem[]);
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const items = useCartStore((state: { items: CartItem[]; }) => state.items as CartItem[]);
+  const updateQuantity = useCartStore((state: { updateQuantity: (book: Book, quantity: number) => void; }) => state.updateQuantity);
+  const removeFromCart = useCartStore((state: { removeFromCart: (book: Book) => void; }) => state.removeFromCart);
   const router = useRouter();
 
-  const handleQuantityChange = (book: Book, value: number | null) => {
-    if (value !== null) {
-      updateQuantity(book, value as number); 
+  const handleQuantityChange = (book: Book, value: number | string | null) => {
+    if (value !== null && typeof value === 'number') {
+      updateQuantity(book, value);
+    } else if (typeof value === 'string') {
+      const parsedValue = parseFloat(value);
+      if (!isNaN(parsedValue)) {
+        updateQuantity(book, parsedValue);
+      }
     }
   };
 
@@ -34,7 +40,10 @@ const Cart = () => {
     router.push('/');
   };
 
-  const totalPrice = items.reduce((total, item) => total + item.book.price * item.quantity, 0);
+  // calculate total price
+  const totalPrice = items.reduce((total: number, item: CartItem) => {
+    return total + item.book.price * item.quantity;
+  }, 0);
 
   return (
     <Center>
@@ -52,14 +61,14 @@ const Cart = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item, index) => (
+            {items.map((item: CartItem, index: Key | null | undefined) => (
               <tr key={index}>
                 <Table.Td>{item.book.title}</Table.Td>
                 <Table.Td>{item.book.author}</Table.Td>
                 <Table.Td>
                   <NumberInput
                     value={item.quantity}
-                    onChange={(value) => handleQuantityChange(item.book, value as number)}
+                    onChange={(value) => handleQuantityChange(item.book, value)}
                     min={1}
                     size="xs"
                   />

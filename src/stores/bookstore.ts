@@ -8,13 +8,13 @@ interface BookStore {
   addToFavourites: (book: Book) => void;
 }
 
-export const useBookStore = create<BookStore>((set) => ({
+export const useBookStore = create<BookStore>((set: (arg0: (state: { books: any; }) => { books: any[]; }) => any) => ({
   books: mockBooks,
   favourites: [],
-  addBook: (book) => set((state) => ({ books: [...state.books, book] })),
-  addToFavourites: (book: Book) => set((state) => ({
-    favourites: state.favourites.includes(book)
-      ? state.favourites.filter((b: Book) => b !== book)
-      : [...state.favourites, book]
-  })),
+  addBook: (book: any) => set((state: { books: any; }) => ({ books: [...state.books, book] })),
+  // addToFavourites: (book: Book) => set((state) => ({
+  //   favourites: state.favourites.includes(book)
+  //     ? state.favourites.filter((b: Book) => b !== book)
+  //     : [...state.favourites, book]
+  // })),
 }));
