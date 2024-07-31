@@ -5,7 +5,7 @@ import { Container, Grid, Center, Button, Text, Pagination, Group, Paper } from 
 import SearchBar from "./SearchBar";
 import Filters from "./Filter";
 import BookCard from "./BookCard";
-import { useState } from "react";
+import { Key, useState } from "react";
 
 interface Book {
   title: string;
@@ -20,8 +20,8 @@ interface BookListProps {
 }
 
 const BookList: React.FC<BookListProps> = ({ search }) => {
-  const books = useBookStore((state) => state.books);
-  const addToCart = useCartStore((state) => state.addToCart);
+  const books = useBookStore((state: { books: any; }) => state.books);
+  const addToCart = useCartStore((state: { addToCart: any; }) => state.addToCart);
   const router = useRouter();
 
   const [sortBy, setSortBy] = useState<string>("title");
@@ -31,7 +31,7 @@ const BookList: React.FC<BookListProps> = ({ search }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 8;
 
-  const filteredBooks = books.filter((book) => {
+  const filteredBooks = books.filter((book: { title: string; author: string; category: string; price: number; }) => {
     const matchesSearch = searchTerm.trim()
       ? book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         book.author.toLowerCase().includes(searchTerm.toLowerCase())
@@ -44,7 +44,7 @@ const BookList: React.FC<BookListProps> = ({ search }) => {
     return matchesSearch && matchesCategory && matchesPrice;
   });
 
-  const sortedBooks = filteredBooks.sort((a, b) => {
+  const sortedBooks = filteredBooks.sort((a: { title: string; author: string; price: number; }, b: { title: any; author: any; price: number; }) => {
     if (sortBy === "title") return a.title.localeCompare(b.title);
     if (sortBy === "author") return a.author.localeCompare(b.author);
     if (sortBy === "price") return a.price - b.price;
@@ -88,7 +88,7 @@ const BookList: React.FC<BookListProps> = ({ search }) => {
       {paginatedBooks.length > 0 ? (
         <>
           <Grid>
-            {paginatedBooks.map((book, index) => (
+            {paginatedBooks.map((book: Book, index: Key | null | undefined) => (
               <Grid.Col
                 key={index}
                 span={{ base: 12, sm: 6, md: 4, lg: 3 }}
