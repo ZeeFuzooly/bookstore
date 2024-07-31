@@ -9,9 +9,9 @@ interface Book {
 }
 
 interface BookStore {
+  favourites: any;
   books: Book[];
   addBook: (book: Book) => void;
-  // Add other state and actions as needed
 }
 
 export const useBookStore = create<BookStore>((set) => ({
@@ -29,9 +29,19 @@ export const useBookStore = create<BookStore>((set) => ({
     { title: "Book 9", author: "Author 3", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 10 ,category:" Non-Fiction"},
     { title: "Book 8", author: "Author 2", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 100 , category:"Non-Fiction"},
     { title: "Book 9", author: "Author 3", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 10 ,category:" Non-Fiction"},
+    { title: "Book 8", author: "Author 2", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 100 , category:"Non-Fiction"},
+    { title: "Book 9", author: "Author 3", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 10 ,category:" Non-Fiction"},
+    { title: "Book 8", author: "Author 2", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 100 , category:"Non-Fiction"},
+    { title: "Book 9", author: "Author 3", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 10 ,category:" Non-Fiction"},
+    { title: "Book 8", author: "Author 2", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 100 , category:"Non-Fiction"},
+    { title: "Book 9", author: "Author 3", cover: "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png", price: 10 ,category:" Non-Fiction"},
   ],
   addBook: (book) => set((state) => ({ books: [...state.books, book] })),
+  favourites: [],
+  addToFavourites: (book: any) => set((state) => ({
+    favourites: state.favourites.includes(book)
+      ? state.favourites.filter((b: any) => b !== book)
+      : [...state.favourites, book]
+  })),
 }));
 
-
-// ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.

@@ -25,7 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm, sortBy
           placeholder="Select sorting criteria"
           value={sortBy}
           onChange={(value) => setSortBy(value || 'title')}
-          style={{ width: 450}}
+          style={{ width: 590}}
           data={[
             { value: 'title', label: 'Title' },
             { value: 'author', label: 'Author' },
@@ -37,7 +37,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm, sortBy
           placeholder="Select category"
           value={categoryFilter || ''}
           onChange={(value) => setCategoryFilter(value || null)}
-          style={{ width: 450 }}
+          style={{ width: 600 }}
           data={[
             { value: '', label: 'All' },
             { value: 'Fiction', label: 'Fiction' },

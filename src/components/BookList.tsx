@@ -1,7 +1,7 @@
 import { useBookStore } from "../stores/bookstore";
 import { useCartStore } from "../stores/cartstore";
 import { useRouter } from "next/router";
-import { Container, Grid, Center, Button, Text, Pagination, Group } from "@mantine/core";
+import { Container, Grid, Center, Button, Text, Pagination, Group, Paper } from "@mantine/core";
 import SearchBar from "./SearchBar";
 import Filters from "./Filter";
 import BookCard from "./BookCard";
@@ -66,22 +66,24 @@ const BookList: React.FC<BookListProps> = ({ search }) => {
   const totalPages = Math.ceil(sortedBooks.length / itemsPerPage);
 
   return (
-    <Container>
-      <Grid>
-        <Grid.Col span={12} >
-          <SearchBar
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            categoryFilter={categoryFilter}
-            setCategoryFilter={setCategoryFilter}
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-          />
-        </Grid.Col>
-        <Grid.Col span={12} >
-          <Filters priceRange={priceRange} setPriceRange={setPriceRange} />
-        </Grid.Col>
-      </Grid>
+    <Container fluid px="xs">
+      <Paper  shadow="xs" style={{ marginBottom: '1rem' }}>
+        <Grid>
+          <Grid.Col span={12}>
+            <SearchBar
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <Filters priceRange={priceRange} setPriceRange={setPriceRange} />
+          </Grid.Col>
+        </Grid>
+      </Paper>
 
       {paginatedBooks.length > 0 ? (
         <>
@@ -106,10 +108,8 @@ const BookList: React.FC<BookListProps> = ({ search }) => {
                 onChange={setCurrentPage}
                 total={totalPages}
                 withControls
+              
               />
-              <Button color="green" onClick={handleNext}>
-                View Cart
-              </Button>
             </Group>
           </Center>
         </>

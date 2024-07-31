@@ -8,10 +8,14 @@ import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 const schema = z.object({
+  customerName: z.string().min(1, 'Customer name is required'),
+  houseNumber: z.string().min(1, 'House number is required'),
   street: z.string().min(1, 'Street is required'),
-  contactNumber: z.string().min(1, 'Contact number is required'),
+  city: z.string().min(1, 'City is required'),
+  landmark: z.string().optional(),
   zipCode: z.string().min(1, 'Zip Code is required'),
-  deliveryAddress: z.string().min(1, 'Delivery address is required'),
+  contactNumber: z.string().min(1, 'Contact number is required'),
+  deliveryAddress: z.string().optional(),
   paymentMethod: z.string().min(1, 'Payment method is required'),
 });
 
@@ -19,9 +23,13 @@ const CheckoutForm = ({ totalPrice }: { totalPrice: number }) => {
   const form = useForm({
     validate: zodResolver(schema),
     initialValues: {
+      customerName: '',
+      houseNumber: '',
       street: '',
-      contactNumber: '',
+      city: '',
+      landmark: '',
       zipCode: '',
+      contactNumber: '',
       deliveryAddress: '',
       paymentMethod: '',
     },
@@ -84,9 +92,29 @@ const CheckoutForm = ({ totalPrice }: { totalPrice: number }) => {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
           <TextInput
+            label="Customer Name"
+            placeholder="Enter your name"
+            {...form.getInputProps('customerName')}
+          />
+          <TextInput
+            label="House Number"
+            placeholder="Enter your house number"
+            {...form.getInputProps('houseNumber')}
+          />
+          <TextInput
             label="Street"
             placeholder="Enter your street"
             {...form.getInputProps('street')}
+          />
+          <TextInput
+            label="City"
+            placeholder="Enter your city"
+            {...form.getInputProps('city')}
+          />
+          <TextInput
+            label="Landmark"
+            placeholder="Enter a landmark (optional)"
+            {...form.getInputProps('landmark')}
           />
           <TextInput
             label="Zip Code"
@@ -94,14 +122,14 @@ const CheckoutForm = ({ totalPrice }: { totalPrice: number }) => {
             {...form.getInputProps('zipCode')}
           />
           <TextInput
-            label="Additional Address Info"
-            placeholder="Enter additional address info (optional)"
-            {...form.getInputProps('deliveryAddress')}
-          />
-          <TextInput
             label="Contact Number"
             placeholder="Enter your contact number"
             {...form.getInputProps('contactNumber')}
+          />
+          <TextInput
+            label="Additional Address Info"
+            placeholder="Enter additional address info (optional)"
+            {...form.getInputProps('deliveryAddress')}
           />
           <Select
             label="Payment Method"
