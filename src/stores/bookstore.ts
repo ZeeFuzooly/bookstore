@@ -32,3 +32,6 @@ export const useBookStore = create<BookStore>((set) => ({
   ],
   addBook: (book) => set((state) => ({ books: [...state.books, book] })),
 }));
+
+
+// ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
